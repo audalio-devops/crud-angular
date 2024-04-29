@@ -1,3 +1,8 @@
 {
-    "livePreview.defaultPreviewPath": "/src/app/app.component.html"
+    "livePreview.defaultPreviewPath": "/src/app/app.component.html",
+    "cSpell.words": [
+        "inicializar",
+        "Pode",
+        "Também"
+    ]
 }

@@ -6,13 +6,14 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from '../../shared/components/error-dialog/error-dialog.component';
+import { CategoryPipe } from "../../shared/pipes/category.pipe";
 
 @Component({
-  selector: 'app-courses',
-  standalone: true,
-  imports: [AppMaterialModule, CommonModule],
-  templateUrl: './courses.component.html',
-  styleUrl: './courses.component.scss'
+    selector: 'app-courses',
+    standalone: true,
+    templateUrl: './courses.component.html',
+    styleUrl: './courses.component.scss',
+    imports: [AppMaterialModule, CommonModule, CategoryPipe]
 })
 
 export class CoursesComponent {
@@ -29,7 +30,7 @@ export class CoursesComponent {
     this.courses$ = this.coursesService.list()
     .pipe(
       catchError(error => {
-        console.log(error)
+        //console.log(error)
         this.openError(' Erro ao carregar cursos! ')
         return of([])
       })

@@ -3,14 +3,14 @@
 
     <mat-toolbar color="primary">Detalhes do Curso</mat-toolbar>
 
-    <form formGroup="form">
+    <form #form="ngForm" novalidate>
       <mat-form-field class="full-width">
-        <input matInput placeholder="Nome" formControlName="name">
+        <input matInput placeholder="Nome" name="name" ngModel>
       </mat-form-field>
 
       <mat-form-field class="full-width">
         <mat-label>Categoria</mat-label>
-        <mat-select formControlName="category">
+        <mat-select name="category" ngModel>
           <mat-option value="null"> </mat-option>
           <mat-option value="front-end">Front-End</mat-option>
           <mat-option value="back-end">Back-End</mat-option>
@@ -21,7 +21,7 @@
   </mat-card-content>
 
   <mat-card-actions align="end">
-    <button mat-raised-button color="primary" (click)="onSubmit()">Salvar</button>
+    <button mat-raised-button color="primary" (click)="onSubmit(form)">Salvar</button>
     <button mat-raised-button (click)="onCancel()">Cancelar</button>
   </mat-card-actions>
 </mat-card>

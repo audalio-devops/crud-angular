@@ -20,6 +20,10 @@ export class CoursesService {
       delay(1000),
       tap((courses: any) => console.log(courses))
     );
+  }
 
+  save(record: Course) {
+    //console.log('Dados do formulário:', record);
+    return this.httpClient.post(this.API, record);
   }
 }

@@ -6,11 +6,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-course-form',
-  standalone: true,
-  imports: [AppMaterialModule, FormsModule],
-  templateUrl: './course-form.component.html',
-  styleUrl: './course-form.component.scss'
+    selector: 'app-course-form',
+    standalone: true,
+    templateUrl: './course-form.component.html',
+    styleUrl: './course-form.component.scss',
+    imports: [AppMaterialModule, FormsModule]
 })
 
 export class CourseFormComponent {

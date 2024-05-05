@@ -8,19 +8,19 @@ import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from '../../shared/components/error-dialog/error-dialog.component';
 import { CategoryPipe } from "../../shared/pipes/category.pipe";
 import { ActivatedRoute, Router } from '@angular/router';
+import { CourseListComponent } from "../course-list/course-list.component";
 
 @Component({
     selector: 'app-courses',
     standalone: true,
     templateUrl: './courses.component.html',
     styleUrl: './courses.component.scss',
-    imports: [AppMaterialModule, CommonModule, CategoryPipe]
+    imports: [AppMaterialModule, CommonModule, CategoryPipe, CourseListComponent]
 })
 
 export class CoursesComponent {
 
   courses$: Observable<Course[]>;
-  displayedColumns = ['name', 'category', 'actions'];
 
   //Also can initialize inside constructor
   constructor(

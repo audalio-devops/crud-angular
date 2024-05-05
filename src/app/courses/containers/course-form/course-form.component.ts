@@ -4,6 +4,8 @@ import { NgForm, FormsModule } from '@angular/forms';
 import { CoursesService } from '../../services/courses.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
+import { Course } from '../../model/course';
 
 @Component({
     selector: 'app-course-form',
@@ -17,7 +19,12 @@ export class CourseFormComponent {
 
   constructor(private service: CoursesService,
               private snackBar: MatSnackBar,
-              private location: Location) { }
+              private location: Location,
+              private route: ActivatedRoute)
+  {
+    const course : Course = this.route.snapshot.data['course'];
+    console.log(course);
+  }
 
   onCancel() {
     this.location.back();

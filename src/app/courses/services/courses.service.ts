@@ -27,7 +27,20 @@ export class CoursesService {
   }
 
   save(record: Partial<Course>) {
-    //console.log('Dados do formulário:', record);
-    return this.httpClient.post(this.API, record);
+    if (record._id) {
+      return this.update(record);
+    }
+    return this.create(record);
   }
+
+  create(record: Partial<Course>) {
+    //console.log('Dados do formulário:', record);
+    return this.httpClient.post<Course>(this.API, record).pipe(first());
+  }
+
+  update(record: Partial<Course>) {
+    //console.log('Dados do formulário:', record);
+    return this.httpClient.put<Course>(`${this.API}/${record._id}`, record).pipe(first())
+  }
+
 }

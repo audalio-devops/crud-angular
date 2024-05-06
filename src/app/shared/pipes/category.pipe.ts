@@ -10,7 +10,7 @@ export class CategoryPipe implements PipeTransform {
     switch(value) {
       case 'front-end': return 'code';
       case 'back-end' : return 'computer';
-      case 'full stack': return 'sync';
+      case 'full-stack': return 'sync';
     }
     return 'code';
   }

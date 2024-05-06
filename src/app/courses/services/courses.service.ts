@@ -26,7 +26,7 @@ export class CoursesService {
     return this.httpClient.get<Course>(`${this.API}/${id}`).pipe(first())
   }
 
-  save(record: Course) {
+  save(record: Partial<Course>) {
     //console.log('Dados do formulário:', record);
     return this.httpClient.post(this.API, record);
   }

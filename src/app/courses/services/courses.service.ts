@@ -33,14 +33,19 @@ export class CoursesService {
     return this.create(record);
   }
 
-  create(record: Partial<Course>) {
+  private create(record: Partial<Course>) {
     //console.log('Dados do formulário:', record);
     return this.httpClient.post<Course>(this.API, record).pipe(first());
   }
 
-  update(record: Partial<Course>) {
+  private update(record: Partial<Course>) {
     //console.log('Dados do formulário:', record);
     return this.httpClient.put<Course>(`${this.API}/${record._id}`, record).pipe(first())
+  }
+
+  remove(id: string) {
+    //console.log('Dados do formulário:', record);
+    return this.httpClient.delete(`${this.API}/${id}`).pipe(first())
   }
 
 }

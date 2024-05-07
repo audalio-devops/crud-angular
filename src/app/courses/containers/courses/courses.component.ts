@@ -9,6 +9,8 @@ import { ErrorDialogComponent } from '../../../shared/components/error-dialog/er
 import { CategoryPipe } from "../../../shared/pipes/category.pipe";
 import { ActivatedRoute, Router } from '@angular/router';
 import { CourseListComponent } from '../../components/course-list/course-list.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { error } from 'console';
 
 @Component({
     selector: 'app-courses',
@@ -20,25 +22,27 @@ import { CourseListComponent } from '../../components/course-list/course-list.co
 
 export class CoursesComponent {
 
-  courses$: Observable<Course[]>;
+  courses$!: Observable<Course[]>;
 
   //Also can initialize inside constructor
   constructor(
       private coursesService: CoursesService,
       public dialog: MatDialog,
       private router: Router,
-      private route: ActivatedRoute
+      private route: ActivatedRoute,
+      private snackBar: MatSnackBar,
     ) {
+    this.refresh();
+  }
 
+  refresh() {
     this.courses$ = this.coursesService.list()
     .pipe(
       catchError(error => {
-        //console.log(error)
         this.openError(' Erro ao carregar cursos! ')
         return of([])
       })
     );
-
   }
 
   openError(errorMsg: string) {
@@ -56,4 +60,25 @@ export class CoursesComponent {
     console.log('onEdit');
   }
 
+  onRemove(course: Course) {
+    console.log('onRemove');
+      this.coursesService.remove(course._id).subscribe({
+        next: () => {
+          this.refresh();
+          this.snackBar.open('Course removed successfully!', 'X', {
+            duration: 5000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center'
+          });
+        },
+        error: () => this.openError('Erro ao remover curso!')
+
+      });
+
+  }
+
 }
+function next(value: Object): void {
+  throw new Error('Function not implemented.');
+}
+

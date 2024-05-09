@@ -6,6 +6,10 @@
     <form [formGroup]="form" class = "min-width" novalidate>
       <mat-form-field class="full-width">
         <input matInput placeholder="Nome" formControlName="name" #name>
+        <mat-hint align="end">{{name.value.length}}/100</mat-hint>
+        @if (form.get('name')?.invalid) {
+          <mat-error>{{getErrorMessage('name')}}</mat-error>
+        }
       </mat-form-field>
 
       <mat-form-field class="full-width">
@@ -16,7 +20,11 @@
           <mat-option value="back-end">Back-End</mat-option>
           <mat-option value="full-stack">Full-Stack</mat-option>
         </mat-select>
+        @if (form.get('name')?.invalid) {
+          <mat-error>{{getErrorMessage('category')}}</mat-error>
+        }
       </mat-form-field>
+
     </form>
   </mat-card-content>
 

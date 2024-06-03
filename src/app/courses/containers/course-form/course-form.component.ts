@@ -1,6 +1,7 @@
+import { Lesson } from './../../model/lesson';
 import { Location, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatOptionModule } from '@angular/material/core';
@@ -59,9 +60,31 @@ export class CourseFormComponent implements OnInit {
                           Validators.minLength(3),
                           Validators.maxLength(100)]],
       category: [course.category, [Validators.required]],
+      lessons: this.formBuilder.array(this.retrieveLessons(course))
     });
+    console.log(this.form);
+    console.log(this.form.value);
   }
 
+  private retrieveLessons(course: Course) {
+    const lessons = [];
+
+    if (course?.lessons) {
+      course.lessons.forEach(lesson => lessons.push(this.createLesson(lesson)));
+    } else {
+      lessons.push(this.createLesson());
+    }
+
+    return lessons;
+  }
+
+  private createLesson(lesson: Lesson = {id: '', name: '', youtubeURL: ''}) {
+    return this.formBuilder.group({
+      id: [lesson.id],
+      name: [lesson.name, Validators.required],
+      youtubeURL: [lesson.youtubeURL],
+    });
+  }
 
   onSubmit() {
     if (this.form.valid) {

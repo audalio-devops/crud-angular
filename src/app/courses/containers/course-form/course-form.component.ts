@@ -1,7 +1,7 @@
 import { Lesson } from './../../model/lesson';
 import { Location, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, UntypedFormArray, Validators } from '@angular/forms';
+import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, UntypedFormArray, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatOptionModule } from '@angular/material/core';
@@ -88,6 +88,16 @@ export class CourseFormComponent implements OnInit {
 
   getLessonsFormArray() {
     return (<UntypedFormArray>this.form.get('lessons')).controls;
+  }
+
+  addNewLesson() {
+    const lessons = this.form.get('lessons') as UntypedFormArray;
+    lessons.push(this.createLesson());
+  }
+
+  removeLesson(index : number) {
+    const lessons = this.form.get('lessons') as UntypedFormArray;
+    lessons.removeAt(index);
   }
 
   onSubmit() {

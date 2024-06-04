@@ -1,7 +1,7 @@
 import { Lesson } from './../../model/lesson';
 import { Location, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, UntypedFormArray, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatOptionModule } from '@angular/material/core';
@@ -84,6 +84,10 @@ export class CourseFormComponent implements OnInit {
       name: [lesson.name, Validators.required],
       youtubeURL: [lesson.youtubeURL],
     });
+  }
+
+  getLessonsFormArray() {
+    return (<UntypedFormArray>this.form.get('lessons')).controls;
   }
 
   onSubmit() {

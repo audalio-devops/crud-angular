@@ -17,6 +17,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Course } from '../../model/course';
 import { CoursesService } from '../../services/courses.service';
 import { ErrorDialogComponent } from './../../../shared/components/error-dialog/error-dialog.component';
+import { FormUtilsService } from '../../../shared/form/form-utils.service';
 
 @Component({
   selector: 'app-course-form',
@@ -49,7 +50,8 @@ export class CourseFormComponent implements OnInit {
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
     private location: Location,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public  formUtils: FormUtilsService
   ) { }
 
   ngOnInit(): void {
@@ -60,7 +62,7 @@ export class CourseFormComponent implements OnInit {
                           Validators.minLength(3),
                           Validators.maxLength(100)]],
       category: [course.category, [Validators.required]],
-      lessons: this.formBuilder.array(this.retrieveLessons(course))
+      lessons: this.formBuilder.array(this.retrieveLessons(course), Validators.required)
     });
     console.log(this.form);
     console.log(this.form.value);
@@ -81,8 +83,12 @@ export class CourseFormComponent implements OnInit {
   private createLesson(lesson: Lesson = {id: '', name: '', youtubeURL: ''}) {
     return this.formBuilder.group({
       id: [lesson.id],
-      name: [lesson.name, Validators.required],
-      youtubeURL: [lesson.youtubeURL],
+      name: [lesson.name, [Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(100)]],
+      youtubeURL: [lesson.youtubeURL, [Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(15)]],
     });
   }
 
@@ -106,6 +112,8 @@ export class CourseFormComponent implements OnInit {
         next: () => this.onSuccess(),
         error: () => this.onError()
       });
+    } else{
+      this.formUtils.validateAllFormFields(this.form);
     }
   }
 
@@ -124,23 +132,5 @@ export class CourseFormComponent implements OnInit {
     });
   }
 
-  getErrorMessage( fieldName:string) {
-    const field = this.form.get(fieldName);
-    if (field?.hasError('required')){
-      return 'Campo Obrigatório!';
-    }
 
-    if (field?.hasError('minlength')){
-      const requiredLength = field.errors ? field.errors['minlength']['requiredLength'] : 3;
-      return `Tamanho mínimo precisa ser de ${requiredLength} caracteres!`;
-    }
-
-    if (field?.hasError('maxlength')){
-      const requiredLength = field.errors ? field.errors['maxlength']['requiredLength'] : 100;
-      return `Tamanho máximo é de ${requiredLength} caracteres!`;
-    }
-
-
-    return 'Campo Inválido';
-  }
 }

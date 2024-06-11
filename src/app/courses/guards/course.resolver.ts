@@ -12,10 +12,10 @@ export class CourseResolver {
   constructor(private service: CoursesService) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Course> {
-    if (route.params && route.params['id']) {
+    if (route.params?.['id']) {
       return this.service.loadById(route.params['id']);
     }
 
-    return of({ _id: '', name: '', category: '' });
+    return of({ _id: '', name: '', category: '', lessons: [] });
   }
 }

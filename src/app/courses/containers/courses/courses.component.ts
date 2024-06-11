@@ -1,8 +1,8 @@
 import { AppMaterialModule } from '../../../shared/app-material/app-material.module';
 import { Course } from '../../model/course';
 import { CoursesService } from '../../services/courses.service';
-import { Observable, catchError, of } from 'rxjs';
-import { Component } from '@angular/core';
+import { Observable, catchError, of, tap } from 'rxjs';
+import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from '../../../shared/components/error-dialog/error-dialog.component';
@@ -10,8 +10,9 @@ import { CategoryPipe } from "../../../shared/pipes/category.pipe";
 import { ActivatedRoute, Router } from '@angular/router';
 import { CourseListComponent } from '../../components/course-list/course-list.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { error } from 'console';
 import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component';
+import { CoursePage } from '../../model/course-page';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 @Component({
     selector: 'app-courses',
@@ -23,7 +24,12 @@ import { ConfirmationDialogComponent } from '../../../shared/components/confirma
 
 export class CoursesComponent {
 
-  courses$!: Observable<Course[]>;
+  courses$!: Observable<CoursePage>;
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  pageIndex = 0;
+  pageSize = 10;
 
   //Also can initialize inside constructor
   constructor(
@@ -36,12 +42,16 @@ export class CoursesComponent {
     this.refresh();
   }
 
-  refresh() {
-    this.courses$ = this.coursesService.list()
+  refresh(pageEvent : PageEvent = {length: 0, pageIndex: 0, pageSize: 10}) {
+    this.courses$ = this.coursesService.list(pageEvent.pageIndex, pageEvent.pageSize)
     .pipe(
+      tap( () => {
+        this.pageIndex = pageEvent.pageIndex;
+        this.pageSize = pageEvent.pageSize;
+      }),
       catchError(error => {
         this.openError(' Erro ao carregar cursos! ')
-        return of([])
+        return of({courses: [], totalElements: 0, totalPages: 0});
       })
     );
   }

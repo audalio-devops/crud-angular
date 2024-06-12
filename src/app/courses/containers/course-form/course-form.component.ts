@@ -1,5 +1,5 @@
 import { Lesson } from './../../model/lesson';
-import { Location, NgFor, NgIf } from '@angular/common';
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, UntypedFormArray, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -30,15 +30,13 @@ import { FormUtilsService } from '../../../shared/form/form-utils.service';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    NgIf,
     MatSelectModule,
     MatOptionModule,
     MatButtonModule,
     MatIconModule,
     MatSnackBarModule,
-    MatDialogModule,
-    NgFor
-  ]
+    MatDialogModule
+]
 })
 export class CourseFormComponent implements OnInit {
 
